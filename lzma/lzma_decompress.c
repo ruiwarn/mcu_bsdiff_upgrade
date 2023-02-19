@@ -56,16 +56,25 @@ static int lzma_decompress_init(vFile *pf)
     if (lz_state != NULL) return 0;
 
     extern ISzAlloc allocator;
-    UInt64 unpack_size;
+    UInt64 unpack_size = 0;
     uint8_t header[LZMA_PROPS_SIZE + 8];;
     size_t headerSize = sizeof(header);
 
     vfread(pf, header, headerSize);
     // debug_array(header, headerSize);
-    for (int i = 0; i < 8; i++)
-    {
-        unpack_size += (UInt64)(header[LZMA_PROPS_SIZE + i] << (i * 8));
-    }
+    // for (char i = 0; i < 8; i++)
+    // {
+    //     unpack_size |= (UInt64)(header[LZMA_PROPS_SIZE + i] << (i * 8));
+    // }
+    /* 以下为过静态检查写法 */
+    unpack_size |= ((uint64_t)header[LZMA_PROPS_SIZE + 0]) << 0;
+    unpack_size |= ((uint64_t)header[LZMA_PROPS_SIZE + 1]) << 8;
+    unpack_size |= ((uint64_t)header[LZMA_PROPS_SIZE + 2]) << 16;
+    unpack_size |= ((uint64_t)header[LZMA_PROPS_SIZE + 3]) << 24;
+    unpack_size |= ((uint64_t)header[LZMA_PROPS_SIZE + 4]) << 32;
+    unpack_size |= ((uint64_t)header[LZMA_PROPS_SIZE + 5]) << 40;
+    unpack_size |= ((uint64_t)header[LZMA_PROPS_SIZE + 6]) << 48;
+    unpack_size |= ((uint64_t)header[LZMA_PROPS_SIZE + 7]) << 56;
     // bs_printf("unpack_size:0X%08X", unpack_size);
 
     //分配解码内存
