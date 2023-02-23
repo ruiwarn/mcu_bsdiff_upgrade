@@ -135,7 +135,7 @@ int bspatch(const uint8_t *old, int64_t oldsize, int64_t newsize, struct bspatch
         //printk("newpos = %d, ctrl[0] = %ld, ctrl[1] = %ld, ctrl[2] = %ld\n", newpos, ctrl[0], ctrl[1], ctrl[2]);
     };
 
-    if (buf_data != NULL) free(buf_data);
+    if (buf_data != NULL) bs_free(buf_data);
 
     return 0;
 }
