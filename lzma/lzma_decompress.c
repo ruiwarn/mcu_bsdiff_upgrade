@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include "user_interface.h"
+#include "bs_user_interface.h"
 #include "LzmaDec.h"
 #include "LzmaEnc.h"
 #include "7zFile.h"
@@ -25,7 +25,7 @@ void *lzma_alloc(ISzAllocPtr p, size_t size)
         return NULL;
     }
 
-    mp = bs_malloc(size);
+    mp = vmalloc(size);
 
 #ifdef LZMA_RAM_USE_DEBUG
     ram_used_size += _msize(mp);
@@ -44,7 +44,7 @@ void lzma_free(ISzAllocPtr p, void *address)
         ram_used_size -= _msize(address);
         printk("ram used: now / max = %d / %d\n", ram_used_size, ram_used_max);
 #endif
-        bs_free(address);
+        vfree(address);
     }
 }
 

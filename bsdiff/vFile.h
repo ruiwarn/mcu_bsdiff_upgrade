@@ -17,6 +17,8 @@ uint8_t *vfgetpos(vFile *fp, uint32_t *position);
 int vfsetpos(vFile *fp, uint32_t position);
 int vfclose(vFile *fp);
 uint32_t vfgetlen(vFile *fp);
+void *vmalloc(size_t size);
+void vfree(void *ptr);
 
 #endif
 /*******************************************************************************************************

@@ -101,10 +101,10 @@ UInt32 LzmaEncProps_GetDictSize(const CLzmaEncProps *props2)
     return props.dictSize;
 }
 
-#if (_MSC_VER >= 1400)
-/* BSR code is fast for some new CPUs */
-/* #define LZMA_LOG_BSR */
-#endif
+// #if (_MSC_VER >= 1400)
+// /* BSR code is fast for some new CPUs */
+// /* #define LZMA_LOG_BSR */
+// #endif
 
 #ifdef LZMA_LOG_BSR
 

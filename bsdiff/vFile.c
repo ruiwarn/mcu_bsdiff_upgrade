@@ -11,13 +11,32 @@
 #include <stdlib.h>
 #include <string.h>
 #include "vFile.h"
-#include "user_interface.h"
+#include "bs_user_interface.h"
+
+
+void *vmalloc(size_t size)
+{
+    if (bs_user_func.bs_malloc == NULL)
+    {
+        return NULL;
+    }
+    return bs_user_func.bs_malloc((size_t)size);
+}
+
+void vfree(void *ptr)
+{
+    if (bs_user_func.bs_free == NULL)
+    {
+        return;
+    }
+    bs_user_func.bs_free(ptr);
+}
 
 vFile *vfopen(const uint8_t *dp, uint32_t size)
 {
     vFile *fp = NULL;
 
-    fp = bs_malloc(sizeof(vFile));
+    fp = vmalloc(sizeof(vFile));
     if (fp != NULL)
     {
         fp->curptr = (uint8_t *)dp;
@@ -71,7 +90,7 @@ int vfclose(vFile *fp)
 {
     if (fp != NULL)
     {
-        bs_free(fp);
+        vfree(fp);
     }
 
     return (0);
